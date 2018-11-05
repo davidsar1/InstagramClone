@@ -11,3 +11,5 @@ Added Back4App Parse Server
 UI screens added. UI elements declared and initialized
 
 Added Signup, Login, and Logout functions
+
+Cleaned up Signup, Login, and Logout functions with switch cases. Cleaned up Actionbar rename.
