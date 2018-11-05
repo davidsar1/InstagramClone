@@ -9,3 +9,5 @@ Newly created Android project. Nothing has been added yet
 Added Back4App Parse Server
 
 UI screens added. UI elements declared and initialized
+
+Added Signup, Login, and Logout functions
