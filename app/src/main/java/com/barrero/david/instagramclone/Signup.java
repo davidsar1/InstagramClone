@@ -14,7 +14,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class Signup extends AppCompatActivity {
+public class Signup extends AppCompatActivity implements View.OnClickListener {
 
     private EditText edtSignupEmail, edtSignupUsername, edtSignupPassword, edtConfirmPassword;
     private Button btnSignup;
@@ -23,8 +23,8 @@ public class Signup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.signup_title);
         setContentView(R.layout.activity_signup);
+        setTitle("Sign Up");
 
         // Save the current Installation to Back4App
         ParseInstallation.getCurrentInstallation().saveInBackground();
@@ -38,9 +38,18 @@ public class Signup extends AppCompatActivity {
 
         txtHaveAccount = findViewById(R.id.txtHaveAccount);
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSignup.setOnClickListener(this);
+        txtHaveAccount.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.btnSignup:
+
                 final ParseUser appUser = new ParseUser();
                 appUser.setEmail(edtSignupEmail.getText().toString());
                 appUser.setUsername(edtSignupUsername.getText().toString());
@@ -62,16 +71,14 @@ public class Signup extends AppCompatActivity {
                         }
                     }
                 });
-            }
-        });
+                break;
 
-        txtHaveAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            case  R.id.txtHaveAccount:
+
                 Intent intent = new Intent(Signup.this, Login.class);
                 startActivity(intent);
-            }
-        });
+                break;
 
+        }
     }
 }

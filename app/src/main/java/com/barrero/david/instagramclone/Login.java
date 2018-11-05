@@ -13,7 +13,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private EditText edtLoginUsername, edtLoginPassword;
     private Button btnLogin;
@@ -31,9 +31,18 @@ public class Login extends AppCompatActivity {
 
         txtNoAccount = findViewById(R.id.txtNoAccount);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnLogin.setOnClickListener(this);
+        txtNoAccount.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.btnLogin:
+
                 ParseUser.logInInBackground(edtLoginUsername.getText().toString(), edtLoginPassword.getText().toString(), new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
@@ -47,16 +56,15 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
-            }
-        });
+                break;
 
-        txtNoAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            case R.id.txtNoAccount:
+
                 Intent intent = new Intent(Login.this, Signup.class);
                 startActivity(intent);
-            }
-        });
+                break;
+
+        }
 
     }
 }
