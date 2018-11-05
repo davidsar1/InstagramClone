@@ -3,7 +3,9 @@ package com.barrero.david.instagramclone;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +28,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         edtLoginUsername = findViewById(R.id.edtLoginUsername);
         edtLoginPassword = findViewById(R.id.edtLoginPassword);
+
+        edtLoginPassword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    onClick(btnLogin);
+                }
+                return false;
+            }
+        });
 
         btnLogin = findViewById(R.id.btnLogin);
 
@@ -55,6 +67,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                             Intent intent = new Intent(Login.this, Welcome.class);
                             startActivity(intent);
+
                         } else {
                             Toast.makeText(Login.this, "Incorrect Username or Password", Toast.LENGTH_SHORT).show();
                         }
@@ -71,4 +84,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
 
     }
+
+    public void rootLayoutTapped(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
 }
