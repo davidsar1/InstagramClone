@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
     private EditText edtSignupEmail, edtSignupUsername, edtSignupPassword, edtConfirmPassword;
     private Button btnSignup;
     private TextView txtHaveAccount;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
         btnSignup = findViewById(R.id.btnSignup);
 
         txtHaveAccount = findViewById(R.id.txtHaveAccount);
+
+        progressBar = findViewById(R.id.progressBar);
 
         btnSignup.setOnClickListener(this);
         txtHaveAccount.setOnClickListener(this);
@@ -59,6 +63,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                 appUser.setUsername(edtSignupUsername.getText().toString());
                 appUser.setPassword(edtSignupPassword.getText().toString());
 
+                progressBar.setVisibility(ProgressBar.VISIBLE);
+
                 appUser.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -73,6 +79,9 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                         } else if (e == null && edtSignupPassword != edtConfirmPassword) {
                             Toast.makeText(Signup.this, "The Passwords did not match", Toast.LENGTH_SHORT).show();
                         }
+
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
+
                     }
                 });
                 break;

@@ -34,6 +34,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         btnLogin.setOnClickListener(this);
         txtNoAccount.setOnClickListener(this);
 
+        if (ParseUser.getCurrentUser() != null) {
+            ParseUser.getCurrentUser().logOut();
+        }
+
     }
 
     @Override
