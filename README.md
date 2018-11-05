@@ -15,3 +15,5 @@ Added Signup, Login, and Logout functions
 Cleaned up Signup, Login, and Logout functions with switch cases. Cleaned up Actionbar rename.
 
 Added automatic logout of user when app is started
+
+Added Signup Progress Bar
