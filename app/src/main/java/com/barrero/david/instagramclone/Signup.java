@@ -41,6 +41,10 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
         btnSignup.setOnClickListener(this);
         txtHaveAccount.setOnClickListener(this);
 
+        if (ParseUser.getCurrentUser() != null) {
+            ParseUser.getCurrentUser().logOut();
+        }
+
     }
 
     @Override
