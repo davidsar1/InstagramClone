@@ -47,7 +47,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         txtNoAccount.setOnClickListener(this);
 
         if (ParseUser.getCurrentUser() != null) {
-            ParseUser.getCurrentUser().logOut();
+            //ParseUser.getCurrentUser().logOut();
+            transitionToSocialMedia();
         }
 
     }
@@ -65,8 +66,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         if (user != null && e == null) {
                             Toast.makeText(Login.this, "Welcome " + user.get("username"), Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(Login.this, Welcome.class);
-                            startActivity(intent);
+                            transitionToSocialMedia();
 
                         } else {
                             Toast.makeText(Login.this, "Incorrect Username or Password", Toast.LENGTH_SHORT).show();
@@ -88,6 +88,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void rootLayoutTapped(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
+    private void transitionToSocialMedia () {
+        Intent intent = new Intent(Login.this, SocialMedia.class);
+        startActivity(intent);
     }
 
 }

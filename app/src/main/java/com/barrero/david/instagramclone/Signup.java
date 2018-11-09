@@ -58,7 +58,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
         txtHaveAccount.setOnClickListener(this);
 
         if (ParseUser.getCurrentUser() != null) {
-            ParseUser.getCurrentUser().logOut();
+            //ParseUser.getCurrentUser().logOut();
+            transitionToSocialMedia();
         }
 
     }
@@ -73,6 +74,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                 if (edtSignupEmail.getText().toString().equals("") || edtSignupUsername.getText().toString().equals("") ||
                         edtSignupPassword.getText().toString().equals("")) {
                     Toast.makeText(Signup.this, "All Fields are Required", Toast.LENGTH_LONG).show();
+
                 } else {
 
                     final ParseUser appUser = new ParseUser();
@@ -88,8 +90,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                             if (e == null) {
                                 Toast.makeText(Signup.this, "welcome " + appUser.get("username"), Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(Signup.this, Welcome.class);
-                                startActivity(intent);
+                                transitionToSocialMedia();
 
                             } else if (e != null) {
                                 Toast.makeText(Signup.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -114,6 +115,11 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
     public void rootLayoutTapped(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
+    private void transitionToSocialMedia () {
+        Intent intent = new Intent(Signup.this, SocialMedia.class);
+        startActivity(intent);
     }
 
 }
