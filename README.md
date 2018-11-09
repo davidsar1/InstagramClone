@@ -17,3 +17,5 @@ Cleaned up Signup, Login, and Logout functions with switch cases. Cleaned up Act
 Added automatic logout of user when app is started
 
 Added Signup Progress Bar
+
+Added keyboard "enter" execute action, Hide keyboard on open UI tap, Signup Logic. Removed "Confirm Password" field and logic
