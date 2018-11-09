@@ -36,8 +36,7 @@
         <activity
             android:name=".Login"
             android:label="Login" />
-        <activity android:name=".Welcome" />
-        <activity android:name=".SocialMedia"></activity>
+        <activity android:name=".SocialMedia" android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
