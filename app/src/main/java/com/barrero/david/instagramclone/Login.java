@@ -49,7 +49,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         txtNoAccount.setOnClickListener(this);
 
         progressBarLogin = findViewById(R.id.progressBarLogin);
-        progressBarLogin.setVisibility(View.INVISIBLE);
 
         if (ParseUser.getCurrentUser() != null) {
             //ParseUser.getCurrentUser().logOut();
@@ -78,6 +77,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         } else {
                             Toast.makeText(Login.this, "Incorrect Username or Password", Toast.LENGTH_SHORT).show();
                         }
+
+                        progressBarLogin.setVisibility(View.GONE);
                     }
                 });
                 break;
@@ -89,9 +90,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
 
         }
-
-        progressBarLogin.setVisibility(View.INVISIBLE);
-
     }
 
     public void rootLayoutTapped(View view) {
