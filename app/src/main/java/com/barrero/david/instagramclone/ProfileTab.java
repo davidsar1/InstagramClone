@@ -44,6 +44,36 @@ public class ProfileTab extends Fragment {
 
         final ParseUser parseUser = ParseUser.getCurrentUser();
 
+        if (parseUser.get("profileName") == null) {
+            edtProfileName.setText("");
+        } else {
+            edtProfileName.setText(parseUser.get("profileName").toString());
+        }
+
+        if (parseUser.get("profileBio") == null) {
+            edtProfileBio.setText("");
+        } else {
+            edtProfileBio.setText(parseUser.get("profileBio").toString());
+        }
+
+        if (parseUser.get("profileProfession") == null) {
+            edtProfileProfession.setText("");
+        } else {
+            edtProfileProfession.setText(parseUser.get("profileProfession").toString());
+        }
+
+        if (parseUser.get("profileHobbies") == null) {
+            edtProfileHobbies.setText("");
+        } else {
+            edtProfileHobbies.setText(parseUser.get("profileHobbies").toString());
+        }
+
+        if (parseUser.get("profileFavSport") == null) {
+            edtProfileFavSport.setText("");
+        } else {
+            edtProfileFavSport.setText(parseUser.get("profileFavSport").toString());
+        }
+
         btnUpdateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

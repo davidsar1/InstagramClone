@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private EditText edtLoginUsername, edtLoginPassword;
     private Button btnLogin;
     private TextView txtNoAccount;
+    private ProgressBar progressBarLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         btnLogin.setOnClickListener(this);
         txtNoAccount.setOnClickListener(this);
 
+        progressBarLogin = findViewById(R.id.progressBarLogin);
+        progressBarLogin.setVisibility(View.INVISIBLE);
+
         if (ParseUser.getCurrentUser() != null) {
             //ParseUser.getCurrentUser().logOut();
             transitionToSocialMedia();
@@ -64,6 +69,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if (user != null && e == null) {
+
+                            progressBarLogin.setVisibility(View.VISIBLE);
                             Toast.makeText(Login.this, "Welcome " + user.get("username"), Toast.LENGTH_SHORT).show();
 
                             transitionToSocialMedia();
@@ -82,6 +89,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
 
         }
+
+        progressBarLogin.setVisibility(View.INVISIBLE);
 
     }
 
