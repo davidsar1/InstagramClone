@@ -44,6 +44,7 @@ public class ProfileTab extends Fragment {
 
         final ParseUser parseUser = ParseUser.getCurrentUser();
 
+        //Keeps EditText clear if there is nothing to show, so hint is visible. Pulls info from database is something is there
         if (parseUser.get("profileName") == null) {
             edtProfileName.setText("");
         } else {
@@ -74,6 +75,7 @@ public class ProfileTab extends Fragment {
             edtProfileFavSport.setText(parseUser.get("profileFavSport").toString());
         }
 
+        //Writes data to database when entered in EditText fields
         btnUpdateInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +86,7 @@ public class ProfileTab extends Fragment {
                 parseUser.put("profileHobbies", edtProfileHobbies.getText().toString());
                 parseUser.put("profileFavSport", edtProfileFavSport.getText().toString());
 
+                //Saves in background because of heavy operation
                 parseUser.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

@@ -29,6 +29,7 @@ dependencies {
     //Implements Back4App SDK
     implementation "com.github.parse-community.Parse-SDK-Android:parse:1.18.5"
     implementation 'com.android.support:design:+'
+    implementation 'com.github.mjn1369:prettydialog:1.0.4'
 
 }
 

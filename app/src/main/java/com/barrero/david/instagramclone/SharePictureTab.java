@@ -74,6 +74,7 @@ public class SharePictureTab extends Fragment implements View.OnClickListener {
 
             case R.id.imgShare:
 
+                //Checks for External Storage permission. Requests the permission if not already granted
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[] {
                             Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
@@ -85,19 +86,21 @@ public class SharePictureTab extends Fragment implements View.OnClickListener {
 
             case R.id.btnShareImage:
 
+                //Checks if an image was selected amd a description was entered
                 if (receivedImageBitmap != null) {
                     if (edtImageDesc.getText().toString().equals("")) {
                         Toast.makeText(getContext(), "Error: You must specify a description", Toast.LENGTH_SHORT).show();
                     } else {
 
+                        //Saves the info to the database
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                         receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                         byte[] bytes = byteArrayOutputStream.toByteArray();
-                        ParseFile parseFile = new ParseFile("pic.png", bytes);
-                        ParseObject parseObject = new ParseObject("Photo");
-                        parseObject.put("picture", parseFile);
-                        parseObject.put("image_des", edtImageDesc.getText().toString());
-                        parseObject.put("username", ParseUser.getCurrentUser().getUsername());
+                        ParseFile parseFile = new ParseFile("pic.png", bytes); //names the image
+                        ParseObject parseObject = new ParseObject("Photo"); //Creates/references the class in the database (table)
+                        parseObject.put("picture", parseFile); //names the file column
+                        parseObject.put("image_des", edtImageDesc.getText().toString()); //names the image description
+                        parseObject.put("username", ParseUser.getCurrentUser().getUsername()); //names the user that uploaded
                         progressBarShare.setVisibility(View.VISIBLE);
                         parseObject.saveInBackground(new SaveCallback() {
                             @Override

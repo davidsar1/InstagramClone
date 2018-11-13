@@ -37,6 +37,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
         edtSignupUsername = findViewById(R.id.edtSignupUsername);
         edtSignupPassword = findViewById(R.id.edtSignupPassword);
 
+        //Allows the Enter key to perform the same function as the signup button
         edtSignupPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent event) {
@@ -70,12 +71,14 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.btnSignup:
 
+                //Informs User that all fields are required
                 if (edtSignupEmail.getText().toString().equals("") || edtSignupUsername.getText().toString().equals("") ||
                         edtSignupPassword.getText().toString().equals("")) {
                     Toast.makeText(Signup.this, "All Fields are Required", Toast.LENGTH_LONG).show();
 
                 } else {
 
+                    //Writes the User signup info to database
                     final ParseUser appUser = new ParseUser();
                     appUser.setEmail(edtSignupEmail.getText().toString());
                     appUser.setUsername(edtSignupUsername.getText().toString());
@@ -106,11 +109,13 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
 
                 Intent intent = new Intent(Signup.this, Login.class);
                 startActivity(intent);
+                finish();
                 break;
 
         }
     }
 
+    //Closes the keyboard when the main screen is tapped
     public void rootLayoutTapped(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -119,6 +124,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
     private void transitionToSocialMedia () {
         Intent intent = new Intent(Signup.this, SocialMedia.class);
         startActivity(intent);
+        finish();
     }
 
 }

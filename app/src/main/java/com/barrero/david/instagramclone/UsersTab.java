@@ -1,16 +1,19 @@
 package com.barrero.david.instagramclone;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -18,13 +21,16 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import libs.mjn.prettydialog.PrettyDialog;
+import libs.mjn.prettydialog.PrettyDialogCallback;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UsersTab extends Fragment {
+public class UsersTab extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private ListView listView;
-    private ArrayList arrayList;
+    private ArrayList<String> arrayList;
     private ArrayAdapter arrayAdapter;
 
     public UsersTab() {
@@ -42,8 +48,12 @@ public class UsersTab extends Fragment {
         arrayList = new ArrayList();
         arrayAdapter= new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayList);
 
+        listView.setOnItemClickListener(UsersTab.this);
+        listView.setOnItemLongClickListener(UsersTab.this);
+
         final TextView txtLoadingUsers = view.findViewById(R.id.txtLoadingUsers);
 
+        //Pulls the list of Users and displays them in the ListView
         ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
         parseQuery.whereNotEqualTo("username", ParseUser.getCurrentUser().getUsername());
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -54,7 +64,7 @@ public class UsersTab extends Fragment {
                         for (ParseUser user : users) {
                             arrayList.add(user.getUsername());
                         }
-
+                        //Show smooth transition to List, so the User doesn't think the app has frozen with slow network connection
                         listView.setAdapter(arrayAdapter);
                         txtLoadingUsers.animate().alpha(0).setDuration(2000);
                         listView.setVisibility(View.VISIBLE);
@@ -65,6 +75,50 @@ public class UsersTab extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        //Gets username of User tapped in list, and passes the username to the UsersPosts
+        Intent intent = new Intent(getContext(), UsersPosts.class);
+        intent.putExtra("username", arrayList.get(position));
+        startActivity(intent);
+
+    }
+
+    //Show a User's profile info, if you tap and hold their name on the list
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+            //query for the parseUsers in the server
+            ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+            parseQuery.whereEqualTo("username", arrayList.get(position));
+            parseQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+                @Override
+                public void done(ParseUser user, ParseException e) {
+
+                    if (user != null && e == null) { //Getting valid user from the server
+
+                        //Pretty Dialog Modal
+                        final PrettyDialog prettyDialog = new PrettyDialog(getContext());
+                        prettyDialog.setTitle(user.getUsername() + "'s info").setMessage(user.get("profileBio") + "\n"
+                        + user.get("profileProfession") + "\n" + user.get("profileHobbies") + "\n"
+                        + user.get("profileFavSport")).setIcon(R.drawable.person_icon)
+                                .addButton("OK",     //button text
+                                R.color.pdlg_color_white,    //button text color
+                                R.color.pdlg_color_green,    //button background color
+                                new PrettyDialogCallback() {   //button onClick
+                                    @Override
+                                    public void onClick() {
+                                        prettyDialog.dismiss();
+                                    }
+                                });
+                        prettyDialog.show();
+                    }
+                }
+            });
+        return true;
     }
 
 }

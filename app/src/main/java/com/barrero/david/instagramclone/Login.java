@@ -31,6 +31,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         edtLoginUsername = findViewById(R.id.edtLoginUsername);
         edtLoginPassword = findViewById(R.id.edtLoginPassword);
 
+        //Allows the Enter key to perform the same action as login button
         edtLoginPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent event) {
@@ -50,6 +51,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         progressBarLogin = findViewById(R.id.progressBarLogin);
 
+        //Checks to see If a User is logged in on their phone and brings them to this screen if so
         if (ParseUser.getCurrentUser() != null) {
             //ParseUser.getCurrentUser().logOut();
             transitionToSocialMedia();
@@ -87,11 +89,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 Intent intent = new Intent(Login.this, Signup.class);
                 startActivity(intent);
+                finish();
                 break;
 
         }
     }
 
+    //Closes keyboard when main screen is tapped
     public void rootLayoutTapped(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -100,6 +104,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void transitionToSocialMedia () {
         Intent intent = new Intent(Login.this, SocialMedia.class);
         startActivity(intent);
+        finish();
     }
 
 }

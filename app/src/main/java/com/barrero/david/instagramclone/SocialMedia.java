@@ -40,6 +40,7 @@ public class SocialMedia extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social_media);
 
+        //Sets the screen title in Actionbar to username
         setTitle(ParseUser.getCurrentUser().getUsername());
 
         toolbar = findViewById(R.id.myToolbar);
@@ -56,6 +57,7 @@ public class SocialMedia extends AppCompatActivity {
 
     }
 
+    //Sets the menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -64,9 +66,11 @@ public class SocialMedia extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    //Actions when menu items are tapped
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        //Checks for external storage permission, and allows access to images if granted
         if (item.getItemId() == R.id.postImageItem) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_DENIED) {
                 requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 3000);
@@ -75,9 +79,12 @@ public class SocialMedia extends AppCompatActivity {
             }
         }
 
+        //Logout User
         else if (item.getItemId() == R.id.logoutUserItem) {
             ParseUser.getCurrentUser().logOut();
             finish();
+            Intent intent = new Intent(SocialMedia.this, Login.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -109,12 +116,14 @@ public class SocialMedia extends AppCompatActivity {
         if (requestCode == 4000 && resultCode == RESULT_OK && data != null) {
             try {
 
+                //Gets the image ready to write to database
                 Uri capturedImage = data.getData();
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), capturedImage);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byte[] bytes = byteArrayOutputStream.toByteArray();
 
+                //Writes the image to database
                 ParseFile parseFile = new ParseFile("img.png", bytes);
                 ParseObject parseObject = new ParseObject("Photo");
                 parseObject.put("picture", parseFile);
